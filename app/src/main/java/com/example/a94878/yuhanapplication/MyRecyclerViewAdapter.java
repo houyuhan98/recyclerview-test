@@ -39,6 +39,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return userData.size();
     }
 
+    public void setuser(List<String> userData){
+        this.userData = userData;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView myTextView;
 

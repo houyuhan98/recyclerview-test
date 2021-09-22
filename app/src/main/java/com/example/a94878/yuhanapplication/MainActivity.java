@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         user = new ArrayList<>();
 
+        adapter = new MyRecyclerViewAdapter(getApplicationContext(), user);
+        recyclerView.setAdapter(adapter);
+
         new HTTPReqTask().execute();
     }
 
@@ -49,10 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 while ((line = rd.readLine()) != null && count<2000) {
                     Log.i("epic", line);
                     user.add(0,line);
+                    adapter.setuser(user);
                     count++;
                 }
-                adapter = new MyRecyclerViewAdapter(getApplicationContext(), user);
-                recyclerView.setAdapter(adapter);
             }
             catch (Exception e) {
                 e.printStackTrace();
