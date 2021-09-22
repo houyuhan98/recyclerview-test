@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,11 +24,23 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MyRecyclerViewAdapter adapter;
     ArrayList<String> user;
+    boolean isFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ToggleButton toggle = findViewById(R.id.friendToggle);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    isFriend = true;
+                } else {
+                    isFriend = false;
+                }
+            }
+        });
 
         // set up the RecyclerView
         recyclerView = findViewById(R.id.rvusers);
@@ -59,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(sb.toString());
                         final String s = count + ": " + jsonObject.getJSONObject("to").getString("name") + ", " + jsonObject.getJSONObject("from").getString("name") + ", " + jsonObject.getString("timestamp");
+                        boolean friend = Boolean.parseBoolean(jsonObject.getString("areFriends"));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
