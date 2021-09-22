@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,12 +51,30 @@ public class MainActivity extends AppCompatActivity {
 
                 BufferedReader rd = new BufferedReader(new InputStreamReader(in));
                 String line;
+                StringBuilder sb = new StringBuilder();
                 int count=0;
-                while ((line = rd.readLine()) != null && count<2000) {
-                    Log.i("epic", line);
-                    user.add(0,line);
-                    adapter.setuser(user);
-                    count++;
+                while ((line = rd.readLine()) != null){
+                    sb.append(line);
+                    Log.i("epic", count + ": " + sb.toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(sb.toString());
+                        final String s = count + ": " + jsonObject.getJSONObject("to").getString("name") + ", " + jsonObject.getJSONObject("from").getString("name") + ", " + jsonObject.getString("timestamp");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                user.add(0,s);
+                                adapter.setuser(user);
+                            }
+                        });
+                        sb.setLength(0);
+                        count++;
+                        if(count % 2000 == 0){
+                            count = 0;
+                            user = new ArrayList<>();
+                        }
+                    } catch (JSONException jsonException){
+                        jsonException.printStackTrace();
+                    }
                 }
             }
             catch (Exception e) {
