@@ -1,6 +1,5 @@
 package com.example.a94878.yuhanapplication;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
