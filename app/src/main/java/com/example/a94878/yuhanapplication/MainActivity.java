@@ -52,7 +52,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyRecyclerViewAdapter(getApplicationContext(), user);
         recyclerView.setAdapter(adapter);
 
-        new HTTPReqTask().execute();
+        checkNetwork network = new checkNetwork(getApplicationContext());
+        network.checkinternet();
+
+        if(globalVar.isNetworkConnected) {
+            Log.i("network","internet is good");
+            new HTTPReqTask().execute();
+        }
+        else{
+            Log.i("network","no internet");
+        }
     }
 
     private class HTTPReqTask extends AsyncTask<Void, Void, Void> {
