@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MyRecyclerViewAdapter adapter;
     ArrayList<String> user;
-    boolean isFriend;
+    boolean areFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    isFriend = true;
+                    areFriend = true;
+                    Log.d("test", "switch is enabled");
                 } else {
-                    isFriend = false;
+                    areFriend = false;
+                    Log.d("test", "switch is disabled");
                 }
             }
         });
@@ -72,17 +74,30 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("epic", count + ": " + sb.toString());
                     try {
                         JSONObject jsonObject = new JSONObject(sb.toString());
+                        // get valid json --> clear stringbuilder
+                        sb.setLength(0);
+                        // data to display in recyclerview
                         final String s = count + ": " + jsonObject.getJSONObject("to").getString("name") + ", " + jsonObject.getJSONObject("from").getString("name") + ", " + jsonObject.getString("timestamp");
                         boolean friend = Boolean.parseBoolean(jsonObject.getString("areFriends"));
+
+                        Log.d("areFriends", String.valueOf(areFriend));
+                        Log.d("friend", String.valueOf(friend));
+
+                        // the only condition that won't display message
+                        if (areFriend && !friend){
+                            Log.d("test", "not friend will skip");
+                            continue;
+                        }
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                user.add(0,s);
+                                user.add(0, s);
                                 adapter.setuser(user);
                             }
                         });
-                        sb.setLength(0);
                         count++;
+
                         if(count % 2000 == 0){
                             count = 0;
                             user = new ArrayList<>();
