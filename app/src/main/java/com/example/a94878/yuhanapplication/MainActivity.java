@@ -54,23 +54,11 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyRecyclerViewAdapter(getApplicationContext(), user);
         recyclerView.setAdapter(adapter);
 
-        //checkNetwork network = new checkNetwork(getApplicationContext());
-        //network.checkinternet();
-
         IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         this.registerReceiver(new NetworkChangeReceiver(), intentFilter);
 
         Constant.timestamp = String.valueOf(System.currentTimeMillis());
         Log.d("Current timestamp:", Constant.timestamp);
-        /*
-        if(globalVar.isNetworkConnected) {
-            Log.i("network","internet is good");
-            //new HTTPReqTask().execute();
-        }
-        else{
-            Log.i("network","no internet");
-        }
-        */
     }
 
     public static class HTTPReqTask extends AsyncTask<Void, Void, Void> {
