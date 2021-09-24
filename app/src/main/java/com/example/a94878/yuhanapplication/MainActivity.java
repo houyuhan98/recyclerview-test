@@ -1,6 +1,5 @@
 package com.example.a94878.yuhanapplication;
 
-import android.content.Context;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Handler;
