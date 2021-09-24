@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Constant.areFriend = true;
-                    Log.d("test", "switch is enabled");
+                    Log.d("testtoggle", "switch is enabled");
                 } else {
                     Constant.areFriend = false;
-                    Log.d("test", "switch is disabled");
+                    Log.d("testtoggle", "switch is disabled");
                 }
             }
         });
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(sb.toString());
                         // get valid json --> clear stringbuilder
                         sb.setLength(0);
-                        // data to display in recyclerview
+                        // formatted data to display in recyclerview
                         final String s = Constant.count + ": " + jsonObject.getJSONObject("to").getString("name") + ", " + jsonObject.getJSONObject("from").getString("name") + ", " + jsonObject.getString("timestamp");
                         boolean friend = Boolean.parseBoolean(jsonObject.getString("areFriends"));
 
@@ -91,12 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
                         Constant.timestamp = curTime;
 
-                        Log.d("areFriends", String.valueOf(Constant.areFriend));
-                        Log.d("friend", String.valueOf(friend));
-
                         // the only condition that won't display message
                         if (Constant.areFriend && !friend){
-                            Log.d("test", "not friend will skip");
+                            Log.d("testfriend", "not friend will skip");
                             continue;
                         }
                         Handler handler = new Handler(Looper.getMainLooper());
